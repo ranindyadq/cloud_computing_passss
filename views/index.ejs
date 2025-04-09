@@ -1,0 +1,25 @@
+<a href="/add" class="btn btn-primary mb-3">+ Tambah Buku</a>
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Judul</th>
+      <th>Penulis</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% books.forEach(book => { %>
+      <tr>
+        <td><%= book.title %></td>
+        <td><%= book.author %></td>
+        <td>
+          <a href="/edit/<%= book._id %>" class="btn btn-sm btn-warning">Edit</a>
+          <form action="/delete/<%= book._id %>" method="POST" class="d-inline">
+            <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin?')">Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
