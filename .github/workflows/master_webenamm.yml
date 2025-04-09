@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -28,15 +28,12 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
-
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
-
+      
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: release.zip
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -53,20 +50,17 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A1C362C5E7FF4B85A77C0B0626D1B751 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2E332E314A4B4132ABD7B307B15CD37F }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5EB5891BF5984243A1CA5DDAF21F810F }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A6FE1C594856449FABBB4B2F28EB26EA }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0C97E58C49204A2CB506E2ECA95D2DF8 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C78B426688534DA09E8819C0E120CEB6 }}
 
       - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
         with:
           app-name: 'webenamm'
           slot-name: 'Production'
